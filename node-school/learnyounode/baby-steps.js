@@ -1,11 +1,10 @@
-console.log(process.argv.length);
+function tallyArray(num, currTotal) {
+        return num + currTotal;
+}
 
-const stringTotal = 5;
+const array = process.argv
+        .splice(2)
+        .map(item => Number(item))
+        .reduce(tallyArray, 0);
 
-console.log(Number(process.argv.length[3]) + Number(process.argv.length[4]));
-
-// for (let i = 0; i < process.argv.length; i + 1) {
-//         if (process.argv[i] > 1) {
-//                 stringTotal += Number(process.argv[i]);
-//         }
-// }
+console.log(array);
