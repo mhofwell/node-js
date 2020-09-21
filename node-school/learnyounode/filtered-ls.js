@@ -25,6 +25,6 @@ function printListFile(err, list) {
         if (err) {
                 console.log(err);
         } else {
-                console.log(list.filter(fileName => fileName.includes('.md')));
+                const list = console.log(list);
         }
 }
