@@ -21,7 +21,7 @@ const path = require('path');
 
 function printListFile(err, list) {
         if (err) {
-                console.log(err);
+                throw err;
         } else {
                 list.forEach(file => {
                         if (path.extname(file) === '.md') {

@@ -1,7 +1,32 @@
+// // directory reading and filtering function
+
 const fs = require('fs');
 const path = require('path');
 
-const ext = `.${process.argv[3]}`;
-const dir = process.argv[2];
+function read(err, data) {
+        if (err) {
+                throw err;
+        } else {
+                data.forEach(file => {
+                        if (path.extname(file) === ext) {
+                                return file;
+                        }
+                });
+        }
+}
 
-function printModular(dir, ext, callback) {}
+function parent(dir, ext, callback) {
+        fs.readdir(dir, function callback(err, data) {
+                if (err) {
+                        throw err;
+                } else {
+                        data.forEach(file => {
+                                if (path.extname(file) === ext) {
+                                        return file;
+                                }
+                        });
+                }
+        }
+}
+
+export default parent;
