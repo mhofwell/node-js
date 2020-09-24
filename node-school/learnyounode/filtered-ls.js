@@ -19,12 +19,18 @@
 const fs = require('fs');
 const path = require('path');
 
-const fileArr = fs.readdir(process.argv[2], printListFile);
+fs.readdir(process.argv[2], printListFile);
 
 function printListFile(err, list) {
         if (err) {
                 console.log(err);
         } else {
-                const list = console.log(list);
+                list.forEach(file => {
+                        if (path.extname(file) === '.md') {
+                                console.log(file);
+                        }
+                });
         }
 }
+
+console.log(process.argv);
