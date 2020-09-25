@@ -35,6 +35,9 @@ fs.readdir(process.argv[2], printListFile);
 
 console.log(process.argv);
 
+// callback function
+// you recieve the list of data, and then check if there's an error, if not print to the console.
+
 // nodeschool solution
 // 'use strict'
 //     const fs = require('fs')

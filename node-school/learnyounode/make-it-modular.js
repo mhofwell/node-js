@@ -1,8 +1,14 @@
-const fs = require('fs');
-const path = require('path');
-const fileMethods = require('./mymodule.js');
+const readDir = require('./mymodule.js');
 
-const ext = `.${process.argv[3]}`;
+const ext = process.argv[3];
 const dir = process.argv[2];
 
-fileMethods.parent(dir, ext, read());
+function printData(err, file) {
+        if (err) {
+                throw err;
+        } else {
+                file.forEach(afile => console.log(afile));
+        }
+}
+
+readDir(dir, ext, printData);

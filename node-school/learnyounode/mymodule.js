@@ -3,30 +3,19 @@
 const fs = require('fs');
 const path = require('path');
 
-function read(err, data) {
-        if (err) {
-                throw err;
-        } else {
+const matches = [];
+
+module.exports = function readDir(dir, ext, callback) {
+        const newExt = `.${ext}`;
+        fs.readdir(dir, (err, data) => {
+                if (err) {
+                        return callback(err);
+                }
                 data.forEach(file => {
-                        if (path.extname(file) === ext) {
-                                return file;
+                        if (path.extname(file) === newExt) {
+                                matches.push(file);
                         }
                 });
-        }
-}
-
-function parent(dir, ext, callback) {
-        fs.readdir(dir, function callback(err, data) {
-                if (err) {
-                        throw err;
-                } else {
-                        data.forEach(file => {
-                                if (path.extname(file) === ext) {
-                                        return file;
-                                }
-                        });
-                }
-        }
-}
-
-export default parent;
+                callback(null, matches);
+        });
+};
