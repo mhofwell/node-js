@@ -3,39 +3,28 @@ const http = require('http');
 // Create the http get requets for the data, assign them to a varible.
 
 const urlArr = [process.argv[2], process.argv[3], process.argv[4], process.argv[5]];
-const promArr = [];
 
-// for (let i = 2; i < process.argv.length; i + 1) {
-//         urlArr.push(process.argv[i]);
-// }
+async function parseURL(array) {
+        await array.forEach(url => {
+                http.get(url, response => {
+                        let strData = '';
 
-// console.log(urlArr);
+                        response.on('error', err => {
+                                console.error(err);
+                        });
 
-urlArr.forEach(addy => {
-        promArr.push(
-                new Promise(resolve => {
-                        resolve(
-                                http
-                                        .get(addy, response => {
-                                                let strData = '';
+                        response.on('data', data => {
+                                strData += data.toString();
+                        });
 
-                                                response.on('error', err => {
-                                                        console.error(err);
-                                                });
+                        response.on('end', () => {
+                                console.log(strData);
+                        });
+                }).on('error', console.error);
+        });
+}
 
-                                                response.on('data', data => {
-                                                        strData += data.toString();
-                                                });
-
-                                                response.on('end', () => {
-                                                        console.log(strData);
-                                                });
-                                        })
-                                        .on('error', console.error)
-                        );
-                })
-        );
-});
+parseURL(urlArr);
 
 // const allRes = Promise.all(promArr);
 
