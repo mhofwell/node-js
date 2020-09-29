@@ -4,23 +4,25 @@ const http = require('http');
 
 const urlArr = [process.argv[2], process.argv[3], process.argv[4], process.argv[5]];
 
-async function parseURL(array) {
-        await array.forEach(url => {
-                http.get(url, response => {
-                        let strData = '';
+function parseURL(array) {
+        array.forEach(async url => {
+                await http
+                        .get(url, response => {
+                                let strData = '';
 
-                        response.on('error', err => {
-                                console.error(err);
-                        });
+                                response.on('error', err => {
+                                        console.error(err);
+                                });
 
-                        response.on('data', data => {
-                                strData += data.toString();
-                        });
+                                response.on('data', data => {
+                                        strData += data.toString();
+                                });
 
-                        response.on('end', () => {
-                                console.log(strData);
-                        });
-                }).on('error', console.error);
+                                response.on('end', () => {
+                                        console.log(strData);
+                                });
+                        })
+                        .on('error', console.error);
         });
 }
 
@@ -37,3 +39,5 @@ parseURL(urlArr);
 // allRes.then(resolved => console.log(resolved));
 
 // resolve the http requests with Promise.all() to ensure they all resolve before logging them.
+
+// new commit necessary
