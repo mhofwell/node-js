@@ -21,15 +21,13 @@ function httpGet(index) {
                         console.log(count);
                         console.log(index);
                         dataArr[index] = chunk;
-                        console.log(dataArr[index]);
+                        if (count === 3) {
+                                for (let i = 0; i < dataArr.length; i += 1) {
+                                        console.log(dataArr[i]);
+                                }
+                        }
                 });
         }).on('error', console.error);
-
-        if (count === 3) {
-                for (let i = 0; i < dataArr.length; i += 1) {
-                        console.log(dataArr[i]);
-                }
-        }
 }
 
 for (let i = 0; i < urls.length; i++) {
