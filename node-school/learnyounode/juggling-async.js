@@ -11,7 +11,7 @@ for (let i = 2; i < process.argv.length; i++) {
 function httpGet(index) {
         let chunk = '';
         http.get(urls[index], response => {
-                response.on('error', console.error);
+                response.on('error', console.error('bad call!'));
                 response.setEncoding('utf8').on('data', data => {
                         chunk += data.concat('');
                 });
@@ -24,7 +24,7 @@ function httpGet(index) {
                                 }
                         }
                 });
-        }).on('error', console.error);
+        }).on('error', console.error('another bad call!'));
 }
 
 for (let i = 0; i < urls.length; i++) {
