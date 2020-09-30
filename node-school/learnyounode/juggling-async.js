@@ -1,43 +1,37 @@
 const http = require('http');
 
-// Create the http get requets for the data, assign them to a varible.
+const urls = [];
+const dataArr = [];
+let chunk = '';
+const strData = '';
+let count = 0;
 
-const urlArr = [process.argv[2], process.argv[3], process.argv[4], process.argv[5]];
-
-function parseURL(array) {
-        array.forEach(async url => {
-                await http
-                        .get(url, response => {
-                                let strData = '';
-
-                                response.on('error', err => {
-                                        console.error(err);
-                                });
-
-                                response.on('data', data => {
-                                        strData += data.toString();
-                                });
-
-                                response.on('end', () => {
-                                        console.log(strData);
-                                });
-                        })
-                        .on('error', console.error);
-        });
+for (let i = 2; i < process.argv.length; i++) {
+        urls.push(process.argv[i]);
 }
 
-parseURL(urlArr);
+function httpGet(index) {
+        http.get(urls[index], response => {
+                response.on('error', console.error);
+                response.setEncoding('utf8').on('data', data => {
+                        chunk += data.concat('');
+                });
+                response.on('end', () => {
+                        count += 1;
+                        console.log(count);
+                        console.log(index);
+                        dataArr[index] = chunk;
+                        console.log(dataArr[index]);
+                });
+        }).on('error', console.error);
 
-// const allRes = Promise.all(promArr);
+        if (count === 3) {
+                for (let i = 0; i < dataArr.length; i += 1) {
+                        console.log(dataArr[i]);
+                }
+        }
+}
 
-// allRes.then(responses => console.log(`${responses}`));
-
-// for (let i = 0; i < process.argv.length; i + 1) {
-//         console.log(Object.values(allRes[i]));
-// }
-
-// allRes.then(resolved => console.log(resolved));
-
-// resolve the http requests with Promise.all() to ensure they all resolve before logging them.
-
-// new commit necessary
+for (let i = 0; i < urls.length; i++) {
+        httpGet(i);
+}
