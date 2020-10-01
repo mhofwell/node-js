@@ -1,4 +1,5 @@
 const net = require('net');
+const os = require('os');
 
 const portArr = [];
 
@@ -13,14 +14,22 @@ for (let i = 2; i < process.argv.length; i++) {
 function listener(socket) {
         // on connection create a new date Object using new Date()
         const date = new Date();
+        let day = date.getDate();
+        let hour = date.getHours();
+
+        if (day < 10) {
+                day = `0${day}`;
+        }
+
+        if (hour < 10) {
+                hour = `0+${hour}`;
+        }
 
         // format the date
-        const currentTime = `${date.getFullYear()}-${date.getMonth() +
-                1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+        const currentTime = `${date.getFullYear()}-${date.getMonth() + 1}-${day} ${hour}:${date.getMinutes()}`;
 
         // write the data to the socket object, which is a Node duplex Stream that can be read and written too.
-
-        socket.write(currentTime);
+        socket.write(`${currentTime}${os.EOL}`);
 
         // close the connection on the socket.
         socket.end();
