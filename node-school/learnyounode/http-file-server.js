@@ -1,19 +1,14 @@
 const http = require('http');
 const fs = require('fs');
 
-const activePort = process.argv[2]; 
-const file = process.argv[3];
+const port = process.argv[2];
+const path = process.argv[3];
 
-// gets sockets in the process.argv array
-
-
-function listener(request, response) {
-request.on('error', console.error('Something went wrong!'), 
-request.on('data', data => {} ); 
+function handleRequest(req, res) {
+        res.writeHead(200, { 'content-type': 'text/plain' });
+        fs.createReadStream(path).pipe(res);
 }
 
-// creating the http Server
-const server = http.createServer(listener);
+const server = http.createServer(handleRequest);
 
-// feeds each socket of the array into the createServer function and fires off the eventListener each time.
-server.listen(activePort);
+server.listen(port);
