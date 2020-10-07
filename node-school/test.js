@@ -1,36 +1,24 @@
 const http = require('http');
 
-const urls = [];
-const dataArr = [];
-let chunk = '';
-const strData = '';
-let count = 0;
+const port = process.argv[2];
 
-for (let i = 2; i < process.argv.length; i++) {
-        urls.push(process.argv[i]);
-}
-
-function httpGet(index) {
-        http.get(urls[index], response => {
-                response.on('error', console.error);
-                response.setEncoding('utf8').on('data', data => {
-                        chunk += data.concat('');
+function handleRequest(req, res) {
+        req.on('error', err => console.error(err));
+        let body = '';
+        if (req.method === 'POST') {
+                req.setEncoding('utf8').on('data', chunk => {
+                        body += chunk;
                 });
-                response.on('end', () => {
-                        count += 1;
-                        console.log(count);
-                        console.log(index);
-                        dataArr[index] = chunk;
-                        if (count === 3) {
-                                console.log(dataArr[0], dataArr[1]);
-                                // for (let i = 0; i < dataArr.length; i += 1) {
-                                //         console.log(dataArr[i]);
-                                // }
-                        }
-                });
-        }).on('error', console.error);
+        } else {
+                console.log('Cannot accept GET request!');
+        }
+        req.on('end', () => {
+                res.write(body.toUpperCase());
+                res.end();
+        });
 }
 
-for (let i = 0; i < urls.length; i++) {
-        httpGet(i);
-}
+const server = http.createServer(handleRequest);
+
+server.listen(port);
+console.log(`Listening on port ${port}`);

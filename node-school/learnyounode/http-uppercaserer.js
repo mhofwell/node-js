@@ -22,3 +22,5 @@ const server = http.createServer(handleRequest);
 
 server.listen(port);
 console.log(`Listening on port ${port}`);
+
+// solve this with src.pipe(truncate).pipe(dst);
