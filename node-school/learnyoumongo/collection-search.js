@@ -13,7 +13,7 @@ function handleQuery(err, db) {
         dbo.collection('parrots')
 
                 // query object for our search
-                .find({ age: { $gt: ageLim } })
+                .find({ age: { $gt: ageLim } }, { projection: { _id: 0, name: 1, age: 1 } })
 
                 // return the results to an Array
                 .toArray((err, result) => {
