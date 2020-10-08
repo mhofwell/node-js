@@ -1,16 +1,14 @@
 const { MongoClient } = require('mongodb');
 
-const fn = process.argv[2];
-const ln = process.argv[3];
-
-console.log('log');
+const fn = 'randy';
+const ln = 'balls';
 
 function handleQuery(err, db) {
         if (err) throw err;
         const dbo = db.db('learnyoumongo');
-        dbo.collection('docs').insert(JSON.stringify({ firstName: fn }, { lastName: ln }), (err, data) => {
+        dbo.collection('docs').insertOne({ firstName: fn, lastName: ln }, (err, data) => {
                 if (err) throw err;
-                console.log(data);
+                console.log(JSON.stringify(data));
                 db.close();
         });
 }
